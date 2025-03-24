@@ -43,11 +43,14 @@ const components = {
 };
 
 interface PortableTextProps {
-  value: TypedObject | TypedObject[];
+  value: TypedObject | TypedObject[] | null;
 }
 
 export default function PortableText({ value }: PortableTextProps) {
   if (!value) return null;
 
-  return <PortableTextComponent value={value} components={components} />;
+  // Ensure value is an array
+  const content = Array.isArray(value) ? value : [value];
+
+  return <PortableTextComponent value={content} components={components} />;
 }
