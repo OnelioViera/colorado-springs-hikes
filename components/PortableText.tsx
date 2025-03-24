@@ -1,4 +1,5 @@
 import { PortableText as PortableTextComponent } from "@portabletext/react";
+import { TypedObject } from "@portabletext/types";
 
 const components = {
   block: {
@@ -42,9 +43,11 @@ const components = {
 };
 
 interface PortableTextProps {
-  value: any;
+  value: TypedObject | TypedObject[];
 }
 
 export default function PortableText({ value }: PortableTextProps) {
+  if (!value) return null;
+
   return <PortableTextComponent value={value} components={components} />;
 }
