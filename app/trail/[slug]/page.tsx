@@ -2,6 +2,7 @@ import { client } from "@/lib/sanity";
 import Image from "next/image";
 import Link from "next/link";
 import PortableText from "@/components/PortableText";
+import ParallaxHero from "@/components/ParallaxHero";
 
 async function getTrail(slug: string) {
   const query = `*[_type == "trail" && slug.current == $slug][0] {
@@ -42,44 +43,29 @@ export default async function TrailPage({
 
   return (
     <main className="min-h-screen bg-gray-100">
-      {/* Hero Image */}
-      <div className="relative h-[50vh] bg-black">
-        <Image
-          src={trail.mainImage.asset.url}
-          alt={trail.name}
-          fill
-          className="object-cover opacity-90"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-          <div className="max-w-7xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              {trail.name}
-            </h1>
-            <div className="flex flex-wrap items-center gap-4 text-sm">
-              <span className="px-3 py-1 bg-white/20 rounded-full backdrop-blur-sm">
-                {trail.length} miles
-              </span>
-              <span className="px-3 py-1 bg-white/20 rounded-full backdrop-blur-sm">
-                {trail.elevationGain}ft elevation gain
-              </span>
-              <span
-                className={`px-3 py-1 rounded-full backdrop-blur-sm ${
-                  trail.difficulty === "easy"
-                    ? "bg-green-500/20"
-                    : trail.difficulty === "moderate"
-                      ? "bg-yellow-500/20"
-                      : "bg-red-500/20"
-                }`}
-              >
-                {trail.difficulty.charAt(0).toUpperCase() +
-                  trail.difficulty.slice(1)}{" "}
-                difficulty
-              </span>
-            </div>
-          </div>
+      <ParallaxHero imageUrl={trail.mainImage.asset.url} title={trail.name}>
+        <div className="flex flex-wrap items-center gap-2 md:gap-4 text-sm md:text-base">
+          <span className="px-3 py-1 bg-white/20 rounded-full backdrop-blur-sm">
+            {trail.length} miles
+          </span>
+          <span className="px-3 py-1 bg-white/20 rounded-full backdrop-blur-sm">
+            {trail.elevationGain}ft elevation gain
+          </span>
+          <span
+            className={`px-3 py-1 rounded-full backdrop-blur-sm ${
+              trail.difficulty === "easy"
+                ? "bg-green-500/20"
+                : trail.difficulty === "moderate"
+                  ? "bg-yellow-500/20"
+                  : "bg-red-500/20"
+            }`}
+          >
+            {trail.difficulty.charAt(0).toUpperCase() +
+              trail.difficulty.slice(1)}{" "}
+            difficulty
+          </span>
         </div>
-      </div>
+      </ParallaxHero>
 
       {/* Trail Content */}
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">

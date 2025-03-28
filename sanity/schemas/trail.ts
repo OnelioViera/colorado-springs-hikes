@@ -1,15 +1,17 @@
-export const trail = {
+import { defineField, defineType } from "sanity";
+
+export default defineType({
   name: "trail",
   title: "Trail",
   type: "document",
   fields: [
-    {
+    defineField({
       name: "name",
       title: "Trail Name",
       type: "string",
-      validation: (Rule: any) => Rule.required(),
-    },
-    {
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
@@ -17,18 +19,38 @@ export const trail = {
         source: "name",
         maxLength: 96,
       },
-      validation: (Rule: any) => Rule.required(),
-    },
-    {
-      name: "description",
-      title: "Description",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "mainImage",
+      title: "Main Image",
+      type: "image",
+      options: {
+        hotspot: true,
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "gallery",
+      title: "Image Gallery",
       type: "array",
-      of: [{ type: "block" }],
-      validation: (Rule: any) => Rule.required(),
-    },
-    {
+      of: [{ type: "image" }],
+    }),
+    defineField({
+      name: "length",
+      title: "Trail Length (miles)",
+      type: "number",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "elevationGain",
+      title: "Elevation Gain (feet)",
+      type: "number",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: "difficulty",
-      title: "Difficulty Level",
+      title: "Difficulty",
       type: "string",
       options: {
         list: [
@@ -37,114 +59,52 @@ export const trail = {
           { title: "Hard", value: "hard" },
         ],
       },
-      validation: (Rule: any) => Rule.required(),
-    },
-    {
-      name: "length",
-      title: "Trail Length (miles)",
-      type: "number",
-      validation: (Rule: any) => Rule.required().positive(),
-    },
-    {
-      name: "elevationGain",
-      title: "Elevation Gain (feet)",
-      type: "number",
-      validation: (Rule: any) => Rule.required().positive(),
-    },
-    {
-      name: "estimatedTime",
-      title: "Estimated Time (hours)",
-      type: "number",
-      validation: (Rule: any) => Rule.required().positive(),
-    },
-    {
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "description",
+      title: "Description",
+      type: "array",
+      of: [{ type: "block" }],
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: "location",
       title: "Location",
-      type: "object",
-      fields: [
-        {
-          name: "trailhead",
-          title: "Trailhead Name",
-          type: "string",
-          validation: (Rule: any) => Rule.required(),
-        },
-        {
-          name: "address",
-          title: "Trailhead Address",
-          type: "string",
-          validation: (Rule: any) => Rule.required(),
-        },
-      ],
-    },
-    {
-      name: "mainImage",
-      title: "Main Trail Image",
-      type: "image",
-      options: {
-        hotspot: true,
-      },
-      validation: (Rule: any) => Rule.required(),
-    },
-    {
-      name: "gallery",
-      title: "Image Gallery",
-      type: "array",
-      of: [
-        {
-          type: "image",
-          options: {
-            hotspot: true,
-          },
-        },
-      ],
-    },
-    {
+      type: "string",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: "features",
       title: "Trail Features",
       type: "array",
       of: [{ type: "string" }],
-      options: {
-        list: [
-          { title: "Waterfall", value: "waterfall" },
-          { title: "Lake", value: "lake" },
-          { title: "Mountain Views", value: "mountain-views" },
-          { title: "Forest", value: "forest" },
-          { title: "Wildlife", value: "wildlife" },
-          { title: "Dog Friendly", value: "dog-friendly" },
-          { title: "Family Friendly", value: "family-friendly" },
-          { title: "Rocky", value: "rocky" },
-          { title: "Shaded", value: "shaded" },
-          { title: "Exposed", value: "exposed" },
-        ],
-      },
-    },
-    {
+    }),
+    defineField({
       name: "bestSeasons",
       title: "Best Seasons",
       type: "array",
       of: [{ type: "string" }],
-      options: {
-        list: [
-          { title: "Spring", value: "spring" },
-          { title: "Summer", value: "summer" },
-          { title: "Fall", value: "fall" },
-          { title: "Winter", value: "winter" },
-        ],
-      },
-    },
-    {
+    }),
+    defineField({
+      name: "estimatedTime",
+      title: "Estimated Time (hours)",
+      type: "number",
+      validation: (Rule) => Rule.required().positive(),
+    }),
+    defineField({
       name: "directions",
       title: "Getting There",
       type: "array",
       of: [{ type: "block" }],
-    },
-    {
+    }),
+    defineField({
       name: "tips",
       title: "Trail Tips",
       type: "array",
       of: [{ type: "block" }],
-    },
-    {
+    }),
+    defineField({
       name: "parking",
       title: "Parking Information",
       type: "object",
@@ -166,25 +126,25 @@ export const trail = {
           type: "text",
         },
       ],
-    },
-    {
+    }),
+    defineField({
       name: "tags",
       title: "Tags",
       type: "array",
       of: [{ type: "string" }],
-    },
-    {
+    }),
+    defineField({
       name: "publishedAt",
       title: "Published At",
       type: "datetime",
-      validation: (Rule: any) => Rule.required(),
-    },
-    {
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: "lastUpdated",
       title: "Last Updated",
       type: "datetime",
-      validation: (Rule: any) => Rule.required(),
-    },
+      validation: (Rule) => Rule.required(),
+    }),
   ],
   preview: {
     select: {
@@ -192,7 +152,7 @@ export const trail = {
       subtitle: "difficulty",
       media: "mainImage",
     },
-    prepare({ title, subtitle, media }: any) {
+    prepare({ title, subtitle, media }) {
       return {
         title,
         subtitle: `Difficulty: ${subtitle}`,
@@ -200,4 +160,4 @@ export const trail = {
       };
     },
   },
-};
+});

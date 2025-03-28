@@ -1,3 +1,8 @@
-import { trail } from "./trail";
+import { type SchemaTypeDefinition } from "sanity";
+import trail from "./trail";
+import about from "./about";
+import contact from "./contact";
 
-export const schemaTypes = [trail];
+export const schema: { types: SchemaTypeDefinition[] } = {
+  types: [trail, about, contact],
+};

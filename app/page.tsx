@@ -71,15 +71,15 @@ export default function Home() {
     <main className="min-h-screen bg-gray-100">
       {/* Hero Section */}
       <div className="relative h-[80vh] bg-black">
-        <Image
-          src="/images/garden-of-the-gods.jpg"
-          alt="Garden of the Gods, Colorado Springs"
-          fill
-          priority
-          className="object-cover"
-          quality={100}
-          unoptimized
-        />
+        <div className="absolute inset-0">
+          <Image
+            src="/images/garden-of-the-gods.jpg"
+            alt="Garden of the Gods, Colorado Springs"
+            fill
+            priority
+            quality={100}
+          />
+        </div>
         <div className="absolute inset-0 bg-black bg-opacity-40" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 text-center">
@@ -124,12 +124,13 @@ export default function Home() {
                 className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
               >
                 <div className="relative h-48">
-                  <Image
-                    src={trail.mainImage.asset.url}
-                    alt={trail.name}
-                    fill
-                    className="object-cover"
-                  />
+                  <div className="absolute inset-0">
+                    <Image
+                      src={trail.mainImage.asset.url}
+                      alt={trail.name}
+                      fill
+                    />
+                  </div>
                 </div>
                 <div className="p-6">
                   <h2 className="text-xl font-semibold mb-2">{trail.name}</h2>

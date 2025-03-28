@@ -49,8 +49,21 @@ interface PortableTextProps {
 export default function PortableText({ value }: PortableTextProps) {
   if (!value) return null;
 
-  // Ensure value is an array
+  // Ensure value is an array and has the correct structure
   const content = Array.isArray(value) ? value : [value];
+
+  // Validate that the content has the required structure
+  if (
+    !content.every((item) => {
+      if (!item || typeof item !== "object") return false;
+      if (!("_type" in item)) return false;
+      if ("children" in item && !Array.isArray(item.children)) return false;
+      return true;
+    })
+  ) {
+    console.warn("Invalid Portable Text content structure");
+    return null;
+  }
 
   return <PortableTextComponent value={content} components={components} />;
 }

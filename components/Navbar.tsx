@@ -3,12 +3,19 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+  SignInButton,
+  SignOutButton,
+  UserButton,
+  useUser,
+} from "@clerk/nextjs";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
+  const { isSignedIn } = useUser();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -73,15 +80,60 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Mobile menu button */}
-          <div className="flex items-center sm:hidden">
+          {/* Auth buttons and mobile menu */}
+          <div className="flex items-center space-x-4">
+            {/* Auth buttons - Desktop */}
+            <div className="hidden sm:flex sm:items-center sm:space-x-4">
+              {!isSignedIn ? (
+                <SignInButton mode="modal">
+                  <button
+                    className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-300 ${
+                      isHomePage && !isScrolled
+                        ? "border-transparent text-white/80 hover:border-white/50 hover:text-white"
+                        : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                    }`}
+                  >
+                    Sign In
+                  </button>
+                </SignInButton>
+              ) : (
+                <div className="flex items-center space-x-4">
+                  <UserButton afterSignOutUrl="/" />
+                  <Link
+                    href="/studio"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-300 ${
+                      isHomePage && !isScrolled
+                        ? "border-transparent text-white/80 hover:border-white/50 hover:text-white"
+                        : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                    }`}
+                  >
+                    Studio
+                  </Link>
+                  <SignOutButton>
+                    <button
+                      className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-300 ${
+                        isHomePage && !isScrolled
+                          ? "border-transparent text-white/80 hover:border-white/50 hover:text-white"
+                          : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                      }`}
+                    >
+                      Sign Out
+                    </button>
+                  </SignOutButton>
+                </div>
+              )}
+            </div>
+
+            {/* Mobile menu button */}
             <button
               type="button"
               className={`inline-flex items-center justify-center p-2 rounded-md transition-colors duration-300 ${
                 isHomePage && !isScrolled
                   ? "text-white/80 hover:text-white hover:bg-white/10"
                   : "text-gray-400 hover:text-gray-500 hover:bg-gray-100"
-              } focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500`}
+              } focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-400 sm:hidden`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <span className="sr-only">Open main menu</span>
@@ -124,7 +176,7 @@ export default function Navbar() {
       {/* Mobile menu */}
       <div
         className={`sm:hidden transition-all duration-300 ${
-          isMenuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
+          isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         } overflow-hidden`}
       >
         <div
@@ -142,7 +194,7 @@ export default function Navbar() {
                 pathname === item.href
                   ? isHomePage && !isScrolled
                     ? "bg-white/10 border-white text-white"
-                    : "bg-blue-50 border-blue-500 text-blue-700"
+                    : "bg-gray-50 border-gray-500 text-gray-700"
                   : isHomePage && !isScrolled
                     ? "border-transparent text-white/80 hover:bg-white/10 hover:border-white/50 hover:text-white"
                     : "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
@@ -152,6 +204,27 @@ export default function Navbar() {
               {item.name}
             </Link>
           ))}
+
+          {/* Auth buttons - Mobile */}
+          <div className="px-3 py-2">
+            {isSignedIn ? (
+              <div className="flex items-center">
+                <UserButton afterSignOutUrl="/" />
+              </div>
+            ) : (
+              <SignInButton mode="modal">
+                <button
+                  className={`w-full px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 ${
+                    isHomePage && !isScrolled
+                      ? "bg-white text-gray-900 hover:bg-gray-100"
+                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  }`}
+                >
+                  Sign In
+                </button>
+              </SignInButton>
+            )}
+          </div>
         </div>
       </div>
     </nav>
